@@ -1,0 +1,55 @@
+name: DSOC-Hub GHA-CI
+on: [push]
+jobs:
+  job1:
+    name: Lint checks and Unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 2
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip3 install pylint pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Run linter
+      run: |
+        pylint *.py conduit/*.py --fail-under 8
+    - name: Run unit tests
+      run: |
+        pytest tests/*
+  job2:
+    name: SAST Scan
+    needs: job1
+    env:
+      DDOJO_URL: #INSERTE URL AQUI
+      JOB_NAME: GHA-CI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check celagus DDojo scripts
+        uses: actions/checkout@v2
+        with:
+          repository: celagus/defect-dojo
+          path: defect-dojo
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install bandit
+      - name: Run Bandit
+        run: |
+          /home/runner/.local/bin/bandit -x tests/u_test.py -r . -o bandit.out -f json || true
+      - name: Upload Bandit output to DefectDojo
+        run: |
+          python3 defect-dojo/import_scan.py -b $DDOJO_URL -k ${{secrets.DDOJO_TOKEN}} -f bandit.out -e 2 -t 'Bandit Scan' 
