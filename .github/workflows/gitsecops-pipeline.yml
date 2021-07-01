@@ -52,4 +52,4 @@ jobs:
           /home/runner/.local/bin/bandit -x tests/u_test.py -r . -o bandit.out -f json || true
       - name: Upload Bandit output to DefectDojo
         run: |
-          python3 defect-dojo/import_scan.py -b $DDOJO_URL -k ${{secrets.DDOJO_TOKEN}} -f bandit.out -e 2 -t 'Bandit Scan' 
+          python3 defect-dojo/import_scan.py -b $DDOJO_URL -k ${{secrets.DDOJO_TOKEN}} -f bandit.out -e 0 -t 'Bandit Scan' 
