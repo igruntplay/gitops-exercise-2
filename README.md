@@ -1,7 +1,7 @@
 # Ejercicio 4: GitOps AppSec Pipeline
 
 ## Intro
-Bienvenidxs! Este es el cuarto ejercicio del módulo de DevSecOps de Ekoparty Hackademy. En el ejercicio anterior aprendieron cómo deployar IaC bajo un enfoque de trabajo GitOps básico. En esta oportunidad profundizaremos en el uso de GitHub Actions para crear AppSec pipelines también bajo un enfoque GitOps.
+Bienvenidos! Este es el cuarto ejercicio del módulo de DevSecOps de Ekoparty Hackademy. En el ejercicio anterior aprendieron cómo deployar IaC bajo un enfoque de trabajo GitOps básico. En esta oportunidad profundizaremos en el uso de GitHub Actions para crear AppSec pipelines también bajo un enfoque GitOps.
 
 ## Requisitos
 * Instalar git en tu entorno local - [instructivo](https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Instalaci%C3%B3n-de-Git)
